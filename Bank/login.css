@@ -1,0 +1,48 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, sans-serif
+}
+
+.container {
+    width: 350px;
+    background-color: rgb(9, 241, 233);
+    margin: auto;
+    margin-top: 100px;
+    padding: 50px;
+    border-radius: 5px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    text-align: center;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button[type="submit"] {
+    width: 106%;
+    padding: 10px;
+    background-color: #027bfdf6;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+p {
+    margin-top: 10px;
+}
+
+a {
+    color: blue;
+}

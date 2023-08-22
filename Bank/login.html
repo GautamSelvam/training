@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login Form</h2>
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Username" required></br>
+            <input type="password" id="password" name="password" placeholder="Password" ></br>
+            <button type="submit">Login</button></br>
+        </form>
+        <p>Not a member ?<a href="signup.html">Signup</a></p>
+    </div>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit',function(){
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const savedUsername = localStorage.getItem('username');
+            const savedPassword = localStorage.getItem('password');
+        
+            if(username === savedUsername && password ===savedPassword){
+                window.open('bankHome.html');
+            }
+            else{
+                alert('Invalid credentials');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+    <h4>Signup Form</h4>
+    <form id="signUp" action="success.html">
+        <!-- Account Number: <input type="number" id="accNo" name="accNo" ></br></br>
+        Account Type: <input type="text" id="accType" name="accType" ></br></br>
+        Account Name: <input type="number" id="accName" name="accno" ></br></br> -->
+        Username: <input type="text" id="username" name="name" required></br></br>
+        Email: <input type="email" id="email" name="email" required pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}""></br></br>
+        Password: <input type="password" id="password" name="password" required pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=])(?!\s).{8,}" ></br></br>
+        <button type="submit">Sign up</button>
+    </form>
+ 
+
+<script>
+    const signUpDetails = document.getElementById('signUp');
+    const successMessage = document.getElementById('success');
+
+    signUpDetails.addEventListener('submit',function(){
+        const userName= document.getElementById('username').value;
+        const Email = document.getElementById('email').value;
+        const Password = document.getElementById('password').value;
+
+        localStorage.setItem('username',userName);
+        localStorage.setItem('email',Email);
+        localStorage.setItem('password',Password);
+    })
+</script>
+</body>
+</html>
