@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank User Login</title>
+</head>
+<body>
+    <form>
+        <h1>Bank User Login</h1>
+        <input type="email" id="emailId" placeholder="Enter the email" />
+        <input type="password" id="passWord" placeholder="Enter the Password" />
+        <input type="text" id="accNum" placeholder="Enter the Account number" />
+        <input type="submit" id="submit" value="Submit" /><br><br>
+        <div class="error-message"></div>
+        <a href="signup.html">New user</a>
+    </form>
+    
+</body>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var userData = JSON.parse(localStorage.getItem('userData'));
+            
+            var submitButton = document.getElementById('submit');
+            var emailInput = document.getElementById('emailId');
+            var passwordInput = document.getElementById('passWord');
+            var accNumInput = document.getElementById('accNum');
+            var errorMessage = document.querySelectorAll('.error-message');
+
+            submitButton.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                var email = emailInput.value;
+                var password = passwordInput.value;
+                var accNum = accNumInput.value;
+
+                var matched = false;
+                for (var i = 0; i < userData.length; i++) {
+                    var user = userData[i];
+                    if (user.emailId === email && user.Password === password && user.accNum === accNum) {
+                        matched = true;
+                        localStorage.setItem('newData', JSON.stringify(user));
+                        localStorage.setItem('accNum', user.accNum);
+                        localStorage.setItem('name', user.userName);
+                        break;
+                    }
+                }
+
+                if (matched) {
+                    window.location.href = 'home.html';
+                } else {
+                    errorMessage.textContent = 'Invalid email or password or Account number.';
+                }
+            });
+        });
+    </script>
+</html>

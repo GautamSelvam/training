@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+</head>
+<body>
+    <div class="container">
+        <label for="account">Account Balance:</label>
+        <span id="accountBalance">0</span><br><br>
+        
+        <label for="amount">Transaction Amount:</label>
+        <input type="number" id="amount"><br><br><br>
+        
+        <button id="creditBtn">Credit</button>   
+        <button id="debitBtn">Debit</button><br><br>
+
+        <table id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Transaction Type</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <a href="home.html">home</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var accNum = localStorage.getItem('accNum');
+            var accNum1 = JSON.parse(accNum);
+            var acctBalance = parseFloat(localStorage.getItem(accNum1));
+            var transactionTable = document.querySelector('#transactionTable tbody');
+            var accountBalanceElement = document.getElementById('accountBalance');
+            var creditButton = document.getElementById('creditBtn');
+            var debitButton = document.getElementById('debitBtn');
+            var amountInput = document.getElementById('amount');
+
+            accountBalanceElement.textContent = acctBalance;
+
+            if (localStorage.getItem('transactions')) {
+                var transactions = JSON.parse(localStorage.getItem('transactions'));
+
+                var accountTransactions = transactions.filter(function(transaction) {
+                    return transaction.accountNumber === accNum1;
+                });
+
+                accountTransactions.forEach(function(transaction) {
+                    appendTransaction(transaction.date, transaction.type, transaction.amount);
+                });
+            }
+
+            creditButton.addEventListener('click', function() {
+                var amount = parseFloat(amountInput.value);
+
+                if (acctBalance + amount < 0 && amount <= 0) {
+                    alert('Not a valid transaction');
+                } else {
+                    acctBalance += amount;
+                    updateAccountBalance(acctBalance);
+                    saveTransaction('Credit', amount);
+                }
+            });
+
+            debitButton.addEventListener('click', function() {
+                var amount = parseFloat(amountInput.value);
+
+                if (acctBalance - amount < 0) {
+                    if (amount < 0) {
+                        alert('Negative number not allowed');
+                    }
+                    alert('Not enough money in your account');
+                } else {
+                    acctBalance -= amount;
+                    updateAccountBalance(acctBalance);
+                    saveTransaction('Debit', amount);
+                }
+            });
+
+            function updateAccountBalance(balance) {
+                localStorage.setItem('accountBalance', balance);
+                localStorage.setItem(accNum1, balance);
+                accountBalanceElement.textContent = balance;
+            }
+
+            function saveTransaction(type, amount) {
+                var transactions = [];
+
+                if (localStorage.getItem('transactions')) {
+                    transactions = JSON.parse(localStorage.getItem('transactions'));
+                }
+
+                var transaction = {
+                    accountNumber: accNum1,
+                    date: new Date().toLocaleString(),
+                    type: type,
+                    amount: amount
+                };
+
+                transactions.push(transaction);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                appendTransaction(transaction.date, transaction.type, transaction.amount);
+            }
+
+            function appendTransaction(date, type, amount) {
+                var row = document.createElement('tr');
+                var dateCell = document.createElement('td');
+                var typeCell = document.createElement('td');
+                var amountCell = document.createElement('td');
+
+                dateCell.textContent = date;
+                typeCell.textContent = type;
+                amountCell.textContent = amount;
+
+                row.appendChild(dateCell);
+                row.appendChild(typeCell);
+                row.appendChild(amountCell);
+
+                transactionTable.appendChild(row);
+            }
+        });
+    </script>
+</body>
+</html>

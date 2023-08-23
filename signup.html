@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+</head>
+<body>
+    <form>
+        <h1>Account Registration</h1>
+        <label for="userName">UserName:</label>
+        <input type="text" id="userName" placeholder="User Name" required><br>
+        <label for="accNum">Acc No:</label>
+        <input type="text" id="accNum" placeholder="Account number" required><br>
+        <label for="emailId">Email:</label>
+        <input type="email" id="emailId" placeholder="Email ID" required><br>
+        <label for="passWord">Password:</label>
+        <input type="password" id="passWord" placeholder="Password" required><br>
+        <input type="submit" value="Submit">
+        <input type="button" id="loginButton" value="Login">
+    </form> 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.querySelector('form');
+            var userNameInput = document.getElementById('userName');
+            var accNumInput = document.getElementById('accNum');
+            var emailIdInput = document.getElementById('emailId');
+            var passWordInput = document.getElementById('passWord');
+            var loginButton = document.getElementById('loginButton');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                var userName = userNameInput.value;
+                var userNamePattern = /^[A-Z][a-z]+$/;
+                if (!userNamePattern.test(userName)) {
+                    alert('Please enter a valid user name.');
+                    return;
+                }
+
+                var accNum = accNumInput.value;
+
+                var emailId = emailIdInput.value;
+
+                var passWord = passWordInput.value;
+
+                var existingData = localStorage.getItem('userData');
+                var userData = [];
+
+                if (existingData) {
+                    userData = JSON.parse(existingData);
+                }
+
+                userData.push({
+                    userName: userName,
+                    accNum: accNum,
+                    emailId: emailId,
+                    Password: passWord
+                });
+
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                if (!localStorage.getItem(accNum)) {
+                    localStorage.setItem(accNum, 0);
+                }
+
+                form.reset();
+            });
+
+            loginButton.addEventListener('click', function() {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

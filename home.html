@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged In Page</title>
+</head>
+<body>
+    <div class="top">
+        <a href="home.html"><p>Home</p></a>
+        <a href="transaction.html"><p>Transaction</p></a>
+        <a href="login.html"><p>LogOut</p></a>
+    </div>
+    <script>
+        var name = localStorage.getItem('name');
+        document.getElementById('name').textContent = 'Logged in as: ' + name;
+
+        var acc = localStorage.getItem('accNum');
+        var acc1 = JSON.parse(acc);
+        var bal = localStorage.getItem(acc1);
+
+        if (!localStorage.getItem(acc1)) {
+            localStorage.setItem(acc1, bal);
+        }
+    </script>
+</body>
+</html>
