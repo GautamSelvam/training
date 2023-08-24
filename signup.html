@@ -49,20 +49,30 @@
 
                 if (existingData) {
                     userData = JSON.parse(existingData);
+                    for (var i = 0; i < userData.length; i++) {
+                        if (userData[i].accNum === accNum) {
+                            alert('Account number already exists. Please enter a unique account number.');
+                            return;
+                        }
+                    }
                 }
 
+                
                 userData.push({
                     userName: userName,
                     accNum: accNum,
                     emailId: emailId,
-                    Password: passWord
+                    Password: passWord,
+                    balance: 0
                 });
+
+                alert('Registered Succesfully')
 
                 localStorage.setItem('userData', JSON.stringify(userData));
 
-                if (!localStorage.getItem(accNum)) {
-                    localStorage.setItem(accNum, 0);
-                }
+                // if (!localStorage.getItem(accNum)) {
+                //     localStorage.setItem(accNum, 0);
+                // }
 
                 form.reset();
             });

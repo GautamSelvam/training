@@ -18,40 +18,57 @@
     
 </body>
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var userData = JSON.parse(localStorage.getItem('userData'));
+    document.addEventListener('DOMContentLoaded', function() {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        const submitButton = document.getElementById('submit');
+        const emailInput = document.getElementById('emailId');
+        const passwordInput = document.getElementById('passWord');
+        const accNumInput = document.getElementById('accNum');
+        const errorMessage = document.querySelectorAll('.error-message');
+
+        function validateUserdetails(){
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const accNum = accNumInput.value;
+
+            // console.log('User Data:', userData);
+
+            if (userData === null) {
+            alert('No user data found. Please register first.');
+            return false;
+        }
+
+            const matchedUsers = userData.filter(user => 
+                user.emailId === email && user.Password === password && user.accNum === accNum
+            );
+
+            // console.log('Login:', email, password, accNum);
+
+            if (matchedUsers.length > 0) {
+                const user = matchedUsers[0];
+                localStorage.setItem('userLoginDetails', JSON.stringify(user));
+                // localStorage.setItem('accNum', user.accNum);
+                // localStorage.setItem('name', user.userName);
+                return true;
+            }
+        }
+
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
             
-            var submitButton = document.getElementById('submit');
-            var emailInput = document.getElementById('emailId');
-            var passwordInput = document.getElementById('passWord');
-            var accNumInput = document.getElementById('accNum');
-            var errorMessage = document.querySelectorAll('.error-message');
-
-            submitButton.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                var email = emailInput.value;
-                var password = passwordInput.value;
-                var accNum = accNumInput.value;
-
-                var matched = false;
-                for (var i = 0; i < userData.length; i++) {
-                    var user = userData[i];
-                    if (user.emailId === email && user.Password === password && user.accNum === accNum) {
-                        matched = true;
-                        localStorage.setItem('newData', JSON.stringify(user));
-                        localStorage.setItem('accNum', user.accNum);
-                        localStorage.setItem('name', user.userName);
-                        break;
-                    }
-                }
-
-                if (matched) {
-                    window.location.href = 'home.html';
-                } else {
-                    errorMessage.textContent = 'Invalid email or password or Account number.';
-                }
-            });
+            const matched = validateUserdetails();
+            
+            if (matched && userData !==null) {
+                window.location.href = 'transaction.html';
+            }
+             else {
+                alert('Invalid email or password or Account number.');
+            }
         });
-    </script>
+    }); 
+</script>
+
+</html>
+
 </html>

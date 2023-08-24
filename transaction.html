@@ -7,6 +7,7 @@
 </head>
 <body>
     <div class="container">
+        <h1 > Welcome, <span id="name"></span> !</h1>
         <label for="account">Account Balance:</label>
         <span id="accountBalance">0</span><br><br>
         
@@ -27,13 +28,21 @@
             <tbody>
             </tbody>
         </table>
-        <a href="home.html">home</a>
+
+       
+        <a href="#" id="logoutLink"><p>LogOut</p></a>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var accNum = localStorage.getItem('accNum');
-            var accNum1 = JSON.parse(accNum);
-            var acctBalance = parseFloat(localStorage.getItem(accNum1));
+            var UserDetails = localStorage.getItem('userLoginDetails');
+            var user = JSON.parse(UserDetails);
+            var name = user.userName;
+            document.getElementById('name').textContent =  name;
+
+            var accnum = user.accNum;
+            console.log(accnum);
+            var acctBalance = user.balance;
+            console.log(acctBalance);
             var transactionTable = document.querySelector('#transactionTable tbody');
             var accountBalanceElement = document.getElementById('accountBalance');
             var creditButton = document.getElementById('creditBtn');
@@ -46,7 +55,7 @@
                 var transactions = JSON.parse(localStorage.getItem('transactions'));
 
                 var accountTransactions = transactions.filter(function(transaction) {
-                    return transaction.accountNumber === accNum1;
+                    return transaction.accountNumber === accnum;
                 });
 
                 accountTransactions.forEach(function(transaction) {
@@ -56,36 +65,46 @@
 
             creditButton.addEventListener('click', function() {
                 var amount = parseFloat(amountInput.value);
-
-                if (acctBalance + amount < 0 && amount <= 0) {
-                    alert('Not a valid transaction');
+                if(amount < 0){
+                    alert('Negative number not allowed');
                 } else {
                     acctBalance += amount;
-                    updateAccountBalance(acctBalance);
+                    updateAccountBalance(accnum,acctBalance);
                     saveTransaction('Credit', amount);
                 }
             });
 
             debitButton.addEventListener('click', function() {
                 var amount = parseFloat(amountInput.value);
-
-                if (acctBalance - amount < 0) {
-                    if (amount < 0) {
-                        alert('Negative number not allowed');
-                    }
+                if (amount < 0) {
+                    alert('Negative number not allowed');
+                } else if (acctBalance - amount < 0) {
                     alert('Not enough money in your account');
                 } else {
                     acctBalance -= amount;
-                    updateAccountBalance(acctBalance);
+                    updateAccountBalance(accnum,acctBalance);
                     saveTransaction('Debit', amount);
                 }
             });
 
-            function updateAccountBalance(balance) {
-                localStorage.setItem('accountBalance', balance);
-                localStorage.setItem(accNum1, balance);
+            function updateAccountBalance(accnum,balance) {
+                // localStorage.setItem('accountBalance', balance);
+                // localStorage.setItem(accNum1, balance);
                 accountBalanceElement.textContent = balance;
+
+                var existingData = localStorage.getItem('userData');
+                if (existingData) {
+                    var userData = JSON.parse(existingData);
+                    for (var i = 0; i < userData.length; i++) {
+                        if (userData[i].accNum == accnum) {
+                            userData[i].balance = balance;
+                            break;
+                        }
+                    }
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                }
             }
+            
 
             function saveTransaction(type, amount) {
                 var transactions = [];
@@ -95,7 +114,7 @@
                 }
 
                 var transaction = {
-                    accountNumber: accNum1,
+                    accountNumber: accnum,
                     date: new Date().toLocaleString(),
                     type: type,
                     amount: amount
@@ -122,6 +141,15 @@
 
                 transactionTable.appendChild(row);
             }
+
+            var logoutLink = document.getElementById('logoutLink');
+
+            logoutLink.addEventListener('click', function() {
+                localStorage.removeItem('userLoginDetails');
+            
+
+                window.location.href = 'login.html';
+            });
         });
     </script>
 </body>
