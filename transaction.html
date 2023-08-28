@@ -7,12 +7,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 > Welcome, <span id="name"></span> !</h1>
+        <h1>Welcome, <span id="name"></span>!</h1>
         <label for="account">Account Balance:</label>
         <span id="accountBalance">0</span><br><br>
         
         <label for="amount">Transaction Amount:</label>
-        <input type="number" id="amount"><br><br><br>
+        <input type="number" id="amount" required><br><br><br>
         
         <button id="creditBtn">Credit</button>   
         <button id="debitBtn">Debit</button><br><br>
@@ -29,91 +29,86 @@
             </tbody>
         </table>
 
-       
         <a href="#" id="logoutLink"><p>LogOut</p></a>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var UserDetails = localStorage.getItem('userLoginDetails');
-            var user = JSON.parse(UserDetails);
-            var name = user.userName;
-            document.getElementById('name').textContent =  name;
+            const UserDetails = localStorage.getItem('userLoginDetails');
+            const user = JSON.parse(UserDetails);
+            const name = user.userName;
+            document.getElementById('name').textContent = name;
 
-            var accnum = user.accNum;
-            console.log(accnum);
-            var acctBalance = user.balance;
-            console.log(acctBalance);
-            var transactionTable = document.querySelector('#transactionTable tbody');
-            var accountBalanceElement = document.getElementById('accountBalance');
-            var creditButton = document.getElementById('creditBtn');
-            var debitButton = document.getElementById('debitBtn');
-            var amountInput = document.getElementById('amount');
+            const accnum = user.accNum;
+
+            let acctBalance = parseFloat(localStorage.getItem('balance')) || user.balance;
+            
+            const transactionTable = document.querySelector('#transactionTable tbody');
+            const accountBalanceElement = document.getElementById('accountBalance');
+            const creditButton = document.getElementById('creditBtn');
+            const debitButton = document.getElementById('debitBtn');
+            const amountInput = document.getElementById('amount');
 
             accountBalanceElement.textContent = acctBalance;
 
             if (localStorage.getItem('transactions')) {
-                var transactions = JSON.parse(localStorage.getItem('transactions'));
+                const transactions = JSON.parse(localStorage.getItem('transactions'));
 
-                var accountTransactions = transactions.filter(function(transaction) {
-                    return transaction.accountNumber === accnum;
-                });
+                const accountTransactions = transactions.filter(transaction => transaction.accountNumber === accnum);
 
-                accountTransactions.forEach(function(transaction) {
+                accountTransactions.forEach(transaction => {
                     appendTransaction(transaction.date, transaction.type, transaction.amount);
                 });
             }
 
             creditButton.addEventListener('click', function() {
-                var amount = parseFloat(amountInput.value);
-                if(amount < 0){
-                    alert('Negative number not allowed');
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid positive amount.');
                 } else {
                     acctBalance += amount;
-                    updateAccountBalance(accnum,acctBalance);
+                    updateAccountBalance(accnum, acctBalance);
                     saveTransaction('Credit', amount);
                 }
             });
 
             debitButton.addEventListener('click', function() {
-                var amount = parseFloat(amountInput.value);
-                if (amount < 0) {
-                    alert('Negative number not allowed');
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid positive amount.');
                 } else if (acctBalance - amount < 0) {
                     alert('Not enough money in your account');
                 } else {
                     acctBalance -= amount;
-                    updateAccountBalance(accnum,acctBalance);
+                    updateAccountBalance(accnum, acctBalance);
                     saveTransaction('Debit', amount);
                 }
             });
 
-            function updateAccountBalance(accnum,balance) {
-                // localStorage.setItem('accountBalance', balance);
-                // localStorage.setItem(accNum1, balance);
+            function updateAccountBalance(accnum, balance) {
                 accountBalanceElement.textContent = balance;
 
-                var existingData = localStorage.getItem('userData');
+                const existingData = localStorage.getItem('userData');
                 if (existingData) {
-                    var userData = JSON.parse(existingData);
-                    for (var i = 0; i < userData.length; i++) {
-                        if (userData[i].accNum == accnum) {
-                            userData[i].balance = balance;
-                            break;
-                        }
+                    const userData = JSON.parse(existingData);
+                    
+                    const userUpdate = userData.find(user => user.accNum === accnum);
+                    if (userUpdate) {
+                        userUpdate.balance = balance;
+                        localStorage.setItem('balance', balance.toString());
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        localStorage.setItem('userLoginDetails', JSON.stringify(userUpdate));
                     }
-                    localStorage.setItem('userData', JSON.stringify(userData));
                 }
             }
-            
 
             function saveTransaction(type, amount) {
-                var transactions = [];
+                let transactions = [];
 
                 if (localStorage.getItem('transactions')) {
                     transactions = JSON.parse(localStorage.getItem('transactions'));
                 }
 
-                var transaction = {
+                const transaction = {
                     accountNumber: accnum,
                     date: new Date().toLocaleString(),
                     type: type,
@@ -126,10 +121,10 @@
             }
 
             function appendTransaction(date, type, amount) {
-                var row = document.createElement('tr');
-                var dateCell = document.createElement('td');
-                var typeCell = document.createElement('td');
-                var amountCell = document.createElement('td');
+                const row = document.createElement('tr');
+                const dateCell = document.createElement('td');
+                const typeCell = document.createElement('td');
+                const amountCell = document.createElement('td');
 
                 dateCell.textContent = date;
                 typeCell.textContent = type;
@@ -142,12 +137,10 @@
                 transactionTable.appendChild(row);
             }
 
-            var logoutLink = document.getElementById('logoutLink');
+            const logoutLink = document.getElementById('logoutLink');
 
             logoutLink.addEventListener('click', function() {
                 localStorage.removeItem('userLoginDetails');
-            
-
                 window.location.href = 'login.html';
             });
         });

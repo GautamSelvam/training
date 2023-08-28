@@ -6,13 +6,13 @@
     <title>Bank User Login</title>
 </head>
 <body>
-    <form>
+    <form id="loginForm">
         <h1>Bank User Login</h1>
         <input type="email" id="emailId" placeholder="Enter the email" />
         <input type="password" id="passWord" placeholder="Enter the Password" />
         <input type="text" id="accNum" placeholder="Enter the Account number" />
         <input type="submit" id="submit" value="Submit" /><br><br>
-        <div class="error-message"></div>
+        <div ><p id="errorMessage"></p></div>
         <a href="signup.html">New user</a>
     </form>
     
@@ -25,14 +25,13 @@
         const emailInput = document.getElementById('emailId');
         const passwordInput = document.getElementById('passWord');
         const accNumInput = document.getElementById('accNum');
-        const errorMessage = document.querySelectorAll('.error-message');
+        const errorMessage = document.getElementById('errorMessage');
 
         function validateUserdetails(){
             const email = emailInput.value;
             const password = passwordInput.value;
             const accNum = accNumInput.value;
 
-            // console.log('User Data:', userData);
 
             if (userData === null) {
             alert('No user data found. Please register first.');
@@ -43,7 +42,6 @@
                 user.emailId === email && user.Password === password && user.accNum === accNum
             );
 
-            // console.log('Login:', email, password, accNum);
 
             if (matchedUsers.length > 0) {
                 const user = matchedUsers[0];
@@ -53,8 +51,9 @@
                 return true;
             }
         }
+        const loginForm = document.getElementById('loginForm')
 
-        submitButton.addEventListener('click', function(event) {
+        loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             
             const matched = validateUserdetails();
@@ -63,7 +62,7 @@
                 window.location.href = 'transaction.html';
             }
              else {
-                alert('Invalid email or password or Account number.');
+                errorMessage.textContent ='Invalid email or password or Account number.';
             }
         });
     }); 
