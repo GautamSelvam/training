@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Registration</title>
+</head>
+<body>
+    <form>
+        <h1>Account Registration</h1>
+        <label for="userName">UserName:</label>
+        <input type="text" id="userName" placeholder="User Name" required><br>
+        <label for="accNum">Acc No:</label>
+        <input type="text" id="accNum" placeholder="Account number" required><br>
+        <label for="emailId">Email:</label>
+        <input type="email" id="emailId" placeholder="Email ID" required><br>
+        <label for="passWord">Password:</label>
+        <input type="password" id="passWord" placeholder="Password" required><br>
+        <div><p id="dataExist"></p></div>
+        <input type="submit" value="Submit">
+        <input type="button" id="loginButton" value="Login">
+    </form> 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const userNameInput = document.getElementById('userName');
+            const accNumInput = document.getElementById('accNum');
+            const emailIdInput = document.getElementById('emailId');
+            const passWordInput = document.getElementById('passWord');
+            const loginButton = document.getElementById('loginButton');
+            const errorMessage = document.getElementById('dataExist');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const userName = userNameInput.value;
+                const userNamePattern = /^[A-Z][a-z]+$/;
+                if (!userNamePattern.test(userName)) {
+                    alert('Please enter a valid user name.');
+                    return;
+                }
+
+                const accNum = accNumInput.value;
+
+                const emailId = emailIdInput.value;
+
+                const passWord = passWordInput.value;
+
+                let existingData = localStorage.getItem('userData');
+                let userData = [];
+
+                if (existingData) {
+                    userData = JSON.parse(existingData);
+
+                    const accountExists = userData.some(user => user.accNum === accNum);
+
+                if (accountExists) {
+                    dataExist.textContent = 'Account number already exists. Please enter a unique account number.';
+                    return;
+                    }
+                }
+
+
+                userData.push({
+                    userName: userName,
+                    accNum: accNum,
+                    emailId: emailId,
+                    Password: passWord,
+                    balance: 0
+                });
+
+                alert('Registered Successfully');
+
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                form.reset();
+            });
+
+            loginButton.addEventListener('click', function() {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

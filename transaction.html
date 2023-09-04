@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, <span id="name"></span>!</h1>
+        <label for="account">Account Balance:</label>
+        <span id="accountBalance">0</span><br><br>
+        
+        <label for="amount">Transaction Amount:</label>
+        <input type="number" id="amount" required><br><br><br>
+        
+        <button id="creditBtn">Credit</button>   
+        <button id="debitBtn">Debit</button><br><br>
+
+        <table id="transactionTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Transaction Type</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <a href="#" id="logoutLink"><p>LogOut</p></a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const UserDetails = localStorage.getItem('userLoginDetails');
+    
+            if (!UserDetails) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(UserDetails);
+            const name = user.userName;
+            document.getElementById('name').textContent = name;
+
+            const accnum = user.accNum;
+
+            let acctBalance = parseFloat(localStorage.getItem('balance')) || user.balance;
+            
+            const transactionTable = document.querySelector('#transactionTable tbody');
+            const accountBalanceElement = document.getElementById('accountBalance');
+            const creditButton = document.getElementById('creditBtn');
+            const debitButton = document.getElementById('debitBtn');
+            const amountInput = document.getElementById('amount');
+
+            accountBalanceElement.textContent = acctBalance;
+
+            if (localStorage.getItem('transactions')) {
+                const transactions = JSON.parse(localStorage.getItem('transactions'));
+
+                const accountTransactions = transactions.filter(transaction => transaction.accountNumber === accnum);
+
+                accountTransactions.forEach(transaction => {
+                    appendTransaction(transaction.date, transaction.type, transaction.amount);
+                });
+            }
+
+            creditButton.addEventListener('click', function() {
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid positive amount.');
+                } else {
+                    acctBalance += amount;
+                    updateAccountBalance(accnum, acctBalance);
+                    saveTransaction('Credit', amount);
+                }
+            });
+
+            debitButton.addEventListener('click', function() {
+                const amount = parseFloat(amountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    alert('Please enter a valid positive amount.');
+                } else if (acctBalance - amount < 0) {
+                    alert('Not enough money in your account');
+                } else {
+                    acctBalance -= amount;
+                    updateAccountBalance(accnum, acctBalance);
+                    saveTransaction('Debit', amount);
+                }
+            });
+
+            function updateAccountBalance(accnum, balance) {
+                accountBalanceElement.textContent = balance;
+
+                const existingData = localStorage.getItem('userData');
+                if (existingData) {
+                    const userData = JSON.parse(existingData);
+                    
+                    const userUpdate = userData.find(user => user.accNum === accnum);
+                    if (userUpdate) {
+                        userUpdate.balance = balance;
+                        localStorage.setItem('balance', balance.toString());
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        localStorage.setItem('userLoginDetails', JSON.stringify(userUpdate));
+                    }
+                }
+            }
+
+            function saveTransaction(type, amount) {
+                let transactions = [];
+
+                if (localStorage.getItem('transactions')) {
+                    transactions = JSON.parse(localStorage.getItem('transactions'));
+                }
+
+                const transaction = {
+                    accountNumber: accnum,
+                    date: new Date().toLocaleString(),
+                    type: type,
+                    amount: amount
+                };
+
+                transactions.push(transaction);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                appendTransaction(transaction.date, transaction.type, transaction.amount);
+            }
+           
+
+            function appendTransaction(date, type, amount) {
+                const row = document.createElement('tr');
+                const dateCell = document.createElement('td');
+                const typeCell = document.createElement('td');
+                const amountCell = document.createElement('td');
+
+                dateCell.textContent = date;
+                typeCell.textContent = type;
+                amountCell.textContent = amount;
+
+                row.appendChild(dateCell);
+                row.appendChild(typeCell);
+                row.appendChild(amountCell);
+
+                transactionTable.appendChild(row);
+            }
+
+            const logoutLink = document.getElementById('logoutLink');
+
+            logoutLink.addEventListener('click', function() {
+                localStorage.removeItem('userLoginDetails');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

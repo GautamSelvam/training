@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank User Login</title>
+</head>
+<body>
+    <form id="loginForm">
+        <h1>Bank User Login</h1>
+        <input type="email" id="emailId" placeholder="Enter the email" />
+        <input type="password" id="passWord" placeholder="Enter the Password" />
+        <input type="text" id="accNum" placeholder="Enter the Account number" />
+        <input type="submit" id="submit" value="Submit" /><br><br>
+        <div ><p id="errorMessage"></p></div>
+        <a href="signup.html">New user</a>
+    </form>
+    
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        const submitButton = document.getElementById('submit');
+        const emailInput = document.getElementById('emailId');
+        const passwordInput = document.getElementById('passWord');
+        const accNumInput = document.getElementById('accNum');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function validateUserdetails(){
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const accNum = accNumInput.value;
+
+
+            if (userData === null) {
+            alert('No user data found. Please register first.');
+            return false;
+        }
+
+            const matchedUsers = userData.filter(user => 
+                user.emailId === email && user.Password === password && user.accNum === accNum
+            );
+
+
+            if (matchedUsers.length > 0) {
+                const user = matchedUsers[0];
+                localStorage.setItem('userLoginDetails', JSON.stringify(user));
+                // localStorage.setItem('accNum', user.accNum);
+                // localStorage.setItem('name', user.userName);
+                return true;
+            }
+        }
+        const loginForm = document.getElementById('loginForm')
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const matched = validateUserdetails();
+            
+            if (matched && userData !==null) {
+                window.location.href = 'transaction.html';
+            }
+             else {
+                errorMessage.textContent ='Invalid email or password or Account number.';
+            }
+        });
+    }); 
+</script>
+
+</html>
+
+</html>
