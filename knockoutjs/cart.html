@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cart.css">
+    <script data-main="cart" src="require.js"> </script>
+</head>
+<body>
+    <div class="nav">
+        <h1>Cart</h1>
+        <h1 data-bind="click: backToHome" style="cursor: pointer;">Back to Home</h1>
+    </div>
+    <div data-bind="foreach: cartItems">
+        <div class="product-box">
+            <img class="product-image" width="160" height="300" data-bind="attr: { src: image }">
+            <p id="productDescription">Product: <span data-bind="text: name"></span></p>
+            <p id="productPrice">Price: ₹<span data-bind="text: price"></span></p>
+            <p id="productCount">Quantity:<span data-bind="text:count"></span></p>
+
+        </div>
+    </div>
+
+    <!-- <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script> -->
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List Page</title>
+    <script data-main="index" src="require.js"> </script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="nav">
+        <h1 data-bind="click: BackToFirstPage">Product List</h1>
+        <h1><a id="car" href="cart.html">Cart(<span id="Count" data-bind="text:Counter"></span>)</a></h1>
+        <h1>
+            <div class="row">
+                <div class="col">
+                    <label for="category">Filter by Category:</label>
+                    <select id="category" data-bind="value: selectedCategory">
+                        <option value="all">All</option>
+                        <option value="mobiles">Mobile</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="tv">TV</option>
+                        <option value="camera">Camera</option>
+                    </select>
+                </div>
+            </div>
+        </h1>
+    </div>
+
+    
+    <ul data-bind="foreach: pagedProducts">
+        <li class="cardBox">
+            
+                <img data-bind="attr: { src: imageUrl, alt: name }" />
+                <strong data-bind="text: name"></strong>
+                <span data-bind="text: price"></span>
+                <span data-bind="text: features"></span>
+                <button data-bind="click: function() { $root.showdata($data);}, ">Show product</button>
+                <button data-bind="click: $parent.additem, click: function() { $root.additem($data); }">Add to cart</button>
+        </li>
+    </ul>
+
+    <div class="pagination">
+        <button class="prev" data-bind="click: previousPage, enable: currentPageIndex() > 0">Previous</button>
+       
+        <span data-bind="foreach: paginationNumbers"> 
+        
+          <button class="page-number" data-bind="text: $data, click: $root.goToPage, css: { active: $root.isActivePage($data) }"></button>
+        </span>
+        <button class="next" data-bind="click: nextPage, enable: currentPageIndex() < maxPageIndex()">Next</button>
+      </div>
+    </div>
+
+    <!-- <script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js"></script> -->
+    
+</body>
+</html>
+
