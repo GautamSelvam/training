@@ -178,7 +178,10 @@ require(['knockout'], function (ko) {
         self.BackToFirstPage =function(){
             window.location.href='index.html';
         }
+<<<<<<< HEAD
         // console.log(self.currentPageIndex());
+=======
+>>>>>>> 42e62343a3d8297b7f9f48b52b3216f9852bcfb3
         self.selectedCategory.subscribe(function () {
             self.currentPageIndex(0);
         });
