@@ -174,6 +174,9 @@ require(['knockout'], function (ko) {
         self.BackToFirstPage =function(){
             window.location.href='index.html';
         }
+        self.selectedCategory.subscribe(function () {
+            self.currentPageIndex(0);
+        });
     }
 
 
