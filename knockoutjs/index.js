@@ -86,20 +86,18 @@ require(['knockout'], function (ko) {
             "camera"),
         ]);
 
-        self.filteredProducts = ko.computed(function () {
+        self.filteredProducts = (function () {
             var selectedCategory = self.selectedCategory();
-            console.log("Selected category:", selectedCategory);
+            // console.log("Selected category:", selectedCategory);
             if (selectedCategory === "all") {
                 return self.products();
             } else {
                 return ko.utils.arrayFilter(self.products(), function (product) {
-                    console.log("Product category:", product.category);
+                    // console.log("Product category:", product.category);
                     return product.category === selectedCategory;
                 });
             }
         });
-        
-        
 
         self.showdata = function (product) {
             window.location.href = "product.html";
@@ -128,26 +126,30 @@ require(['knockout'], function (ko) {
             }
 
             localStorage.setItem('cartItems', JSON.stringify(self.cartItems()));
-            localStorage.setItem('totalcount',self.Counter());
+            localStorage.setItem('totalcount', self.Counter().toString());
         };
+        
 
         self.pageSize = 3;
         self.currentPageIndex = ko.observable(0);
 
         self.maxPageIndex = ko.computed(function () {
-            return Math.ceil(self.filteredProducts().length / self.pageSize) - 1;
+            // console.log(Math.ceil(self.filteredProducts().length / self.pageSize))
+            return Math.ceil(self.filteredProducts().length / self.pageSize);
         });
 
         self.pagedProducts = ko.computed(function () {
             var startIndex = self.pageSize * self.currentPageIndex();
             return self.filteredProducts().slice(startIndex, startIndex + self.pageSize);
+            
         });
 
         self.paginationNumbers = ko.computed(function () {
             var pages = [];
-            for (var i = 0; i <= self.maxPageIndex(); i++) {
-                pages.push(i + 1);
+            for (var i = 1; i <= self.maxPageIndex(); i++) {
+                pages.push(i );
             }
+            
             return pages;
         });
 
@@ -156,7 +158,7 @@ require(['knockout'], function (ko) {
                 self.currentPageIndex(self.currentPageIndex() - 1);
             }
         };
-
+        console.log(self.currentPageIndex())
         self.nextPage = function () {
             if (self.currentPageIndex() < self.maxPageIndex()) {
                 self.currentPageIndex(self.currentPageIndex() + 1);
@@ -164,16 +166,22 @@ require(['knockout'], function (ko) {
         };
 
         self.goToPage = function (pageIndex) {
-            self.currentPageIndex(pageIndex - 1);
+            // console.log()
+            self.currentPageIndex(pageIndex-1);
         };
 
         self.isActivePage = function (pageIndex) {
+            // console.log(self.currentPageIndex() === (pageIndex - 1));
             return self.currentPageIndex() === (pageIndex - 1);
         };
 
         self.BackToFirstPage =function(){
             window.location.href='index.html';
         }
+        // console.log(self.currentPageIndex());
+        self.selectedCategory.subscribe(function () {
+            self.currentPageIndex(0);
+        });
     }
 
 

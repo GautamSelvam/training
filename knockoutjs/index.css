@@ -90,10 +90,10 @@ button {
     margin: 0 5px;
 }
 
-.pagination button.prev,
-.pagination button.next {
+/* .pagination button.prev ,
+.pagination button.next  {
     background-color: #706a6a;
-}
+} */
 
 .pagination button.active {
     background-color: #333;

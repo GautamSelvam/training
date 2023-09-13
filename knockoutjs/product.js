@@ -5,7 +5,7 @@ require.config({
     },
 });
 
-require(['knockout'], function (ko) {
+require(['knockout',], function (ko) {
     function AppViewModel() {
         
         var self = this;
