@@ -1,0 +1,71 @@
+/* resultsDashboard.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* .main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+} */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #007bff;
+    margin: 0;
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.results-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.results-table th,
+.results-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.results-table th {
+    background-color: #f2f2f2;
+}
+
+.results-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
