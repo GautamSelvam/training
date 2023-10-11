@@ -10,23 +10,30 @@
 <body>
     <div>
     <h2>SIGN UP</h2>
-        <form action="db_Register.php" method="POST">
+        <form action="UserRegistration.php" method="POST">
            
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" autocomplete='off'><br>
+            <input type="text" name="name" id="name" autocomplete='off' required><br>
             
             <label for="username">Username:</label>
-            <input type="text" name="userName" id="username" autocomplete='off'><br>
+            <input type="text" name="userName" id="username" autocomplete='off' required><br>
 
             <!-- <label for="email">Email:</label>
             <input type="email" name="email" id="email" autocomplete='off'><br> -->
             
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password"><br>
+            <input type="password" name="password" id="password" required><br>
             
             <input type="submit" value="Submit">
         </form>
-        <form action="user_Login.php">
+        <?php
+        session_start();
+        if (isset($_SESSION['error_message'])) {
+            echo '<p class="error-message">' . $_SESSION['error_message'] . '</p>';
+            unset($_SESSION['error_message']); // Clear the session variable
+        }
+        ?>
+        <form action="user_Login.html">
             <input type="submit" value="Login">
         </form>
     </div>

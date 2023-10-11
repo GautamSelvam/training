@@ -2,7 +2,7 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
-include "dbconnect.php";
+include "DbConnect.php";
 
 class QuestionManager {
     private $conn;
@@ -13,7 +13,6 @@ class QuestionManager {
 
     public function addQuestion($question_text, $option1, $option2, $option3, $option4, $correct_option) {
         try {
-            // Prepare and execute the SQL query with placeholders
             $sql = "INSERT INTO questions (question_text, option_1, option_2, option_3, option_4, correct_option) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($sql);
 
@@ -28,7 +27,7 @@ class QuestionManager {
                 session_start();
                 $_SESSION['success_message'] = "Question added successfully!";
 
-                header("location: add_Questions.php");
+                header("location: add_Questions.phtml");
                 exit;
             } else {
                 echo "failed to add questions"; // Failure
@@ -41,7 +40,7 @@ class QuestionManager {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $db = new dbconnect();
+    $db = new DbConnect();
     $conn = $db->getConnection();
     $questionManager = new QuestionManager($conn);
 

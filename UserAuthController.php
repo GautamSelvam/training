@@ -1,6 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
-include "dbconnect.php";
+include "DbConnect.php";
 
 class UserAuthController {
     private $conn;
@@ -27,11 +30,11 @@ class UserAuthController {
                 $stmt->execute();
     
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+    // Guard Clause 
                 if ($row) {
                     
                     if ($row["usertype"] == 'admin') {
-                        header("location: admin_Home.php");
+                        header("location: admin_Home.html");
                         exit;
                     } elseif ($row["usertype"] == 'user') {
                         $_SESSION['username'] = $row['userName'];

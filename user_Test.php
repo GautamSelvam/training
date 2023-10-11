@@ -1,18 +1,21 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
-include 'db_userTestQ.php';
-class UserResults {
+include 'UserTestQ.php';
+class UserResults
+{
     private $conn;
     private $username;
 
-    public function __construct($conn, $username) {
+    public function __construct($conn, $username)
+    {
         $this->conn = $conn;
         $this->username = $username;
     }
 
-    public function hasTakenTest() {
+    public function hasTakenTest()
+    {
         $sql = "SELECT COUNT(*) FROM result WHERE username = :username";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':username', $this->username, PDO::PARAM_STR);
@@ -46,17 +49,17 @@ if (isset($_SESSION["username"])) {
 <?php if (!empty($alreadyTakenMessage)) : ?>
     <div class="already-taken-message">
         <?php echo $alreadyTakenMessage; ?>
-        <a class="back-link" href="user_Login.php">Log out</a>
+        <a class="back-link" href="user_Home.php">Back</a>
     </div>
 <?php else : ?>
 <div>
-<form method="post" name="quizForm" action="quiz_Results.php" id="quizForm">
+<form method="post" name="quizForm" action="QuizScorer.php" id="quizForm">
 <script src="timer.js"></script>
 
 <div class="container">
-    <?php foreach ($getQuestions as $row): ?>
+    <?php foreach ($getQuestions as $row) : ?>
         <div class="question">
-            <p><?php echo $row['question_text']; ?></p>
+            <p><?= $row['question_text']; ?></p>
             <input type="radio" name="answer[<?php echo $row['question_id']; ?>]" value="1"> <?php echo $row['option_1']; ?> <br>
             <input type="radio" name="answer[<?php echo $row['question_id']; ?>]" value="2"> <?php echo $row['option_2']; ?> <br>
             <input type="radio" name="answer[<?php echo $row['question_id']; ?>]" value="3"> <?php echo $row['option_3']; ?> <br>

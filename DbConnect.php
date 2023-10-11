@@ -1,5 +1,5 @@
 <?php
-    class dbconnect {
+    class DbConnect {
         private $servername;
         private $username;
         private $password;
@@ -31,7 +31,7 @@
         // }
     }
     
-    $database = new dbconnect();
+    $database = new DbConnect();
     
     $conn = $database->getConnection();
     

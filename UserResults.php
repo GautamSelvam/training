@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-include 'dbconnect.php';
+include 'DbConnect.php';
 
-class userResults {
+class UserResults {
     private $conn;
     private $username;
 
@@ -26,12 +26,12 @@ class userResults {
 }
 // $userTestResults = new QuizResultsDashboard($conn);
 // $userTestResults->displayResults();
-$userResultsData = [];
+$userResultsData = []; //Needed an empty array bcoz the value was storing as NULL
 
 if (isset($_SESSION["username"])) {
     $username = $_SESSION["username"];
 
-    $userResults = new userResults($conn, $username);
+    $userResults = new UserResults($conn, $username);
     $userResultsData = $userResults->getUserResults();
 
 }

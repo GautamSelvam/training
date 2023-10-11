@@ -5,7 +5,7 @@ session_start();
 // Destroy the session
 session_destroy();
 
-// Redirect to the login page or any other page after logout
-header("location: user_Login.php"); // Replace "login.php" with the desired page
+// Redirect to the login page ord desired page
+header("location: user_Login.html");
 exit;
 ?>

@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include 'dbconnect.php';
+include 'DbConnect.php';
 
 class QuizResultsDashboard {
     private $conn;

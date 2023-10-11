@@ -16,7 +16,7 @@
     }
     ?>
 <div class="container">
-        <form  action="db_addQuestions.php" method="POST">
+        <form  action="QuestionManager.php" method="POST">
             <!-- <label for="">Question:</label> -->
             Question:<input type="text" name="question_text" required><br>
 

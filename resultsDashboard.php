@@ -1,5 +1,5 @@
 <?php
-    include 'db_results.php';
+    include 'QuizResultsDashboard.php';
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
         <div class="main-content">
             <div class="header">
                 <h2>Test App</h2>
-                <h2><a href="user_Login.php">Log out</a></h2>
+                <h2><a href="user_Login.html">Log out</a></h2>
             </div>
         </div>
         
@@ -34,14 +34,14 @@
 
             <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)): ?>
                 <tr>
-                    <td><?php echo $row['username']; ?></td>
+                    <td><?= $row['username']; ?></td>
                    
                     <td><?php echo $row['time_taken']; ?></td>
                     <td><?php echo $row['score']; ?></td>
                 </tr>
             <?php endwhile; ?>
         </table>
-        <p><a class="back-link" href="admin_Home.php">Back</a></p>
+        <p><a class="back-link" href="admin_Home.html">Back</a></p>
     </div>
 
     </div>

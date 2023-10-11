@@ -3,9 +3,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 session_start();
-include 'dbconnect.php';
+include 'DbConnect.php';
 
-class QuizTimer {
+class UserTestQ {
     private $conn;
 
     public function __construct($conn) {
@@ -19,7 +19,7 @@ class QuizTimer {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-$quizTimer = new QuizTimer($conn);
+$quizTimer = new UserTestQ($conn);
 $getQuestions = $quizTimer->getQuestions();
 
 ?>

@@ -1,5 +1,5 @@
 <?php
-    include 'db_userResults.php';
+    include 'UserResults.php';
     // var_dump($_SESSION);
 
 ?>
@@ -14,16 +14,16 @@
 
     <script type="text/javascript">
         window.history.forward();
-        function noBack() {
-            window.history.forward();
-        }
+        // function noBack() {
+        //     window.history.forward();
+        // }
     </script>
 </head>
 
 <body>
     <header>
         <h1>Test App</h1>
-        <h1><a class="back-link" href="user_Login.php">Log out</a></h1>
+        <h1><a class="back-link" href="user_Login.html">Log out</a></h1>
     </header>
 
     
