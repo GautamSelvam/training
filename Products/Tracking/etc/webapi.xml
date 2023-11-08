@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route method="GET" url="/V1/tracking-product/api/getlist">
+        <service class="Products\Tracking\Api\TrackingInterface" method="getApiData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+
+    <route method="POST" url="/V1/tracking-product/api/save">
+        <service class="Products\Tracking\Api\TrackingInterface" method="save"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+
+    <route method="GET" url="/V1/tracking-product/api/getid">
+        <service class="Products\Tracking\Api\TrackingInterface" method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+
+    <route method="POST" url="/V1/tracking-product/api/edit">
+        <service class="Products\Tracking\Api\TrackingInterface" method="update"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/tracking-product/api/delete">
+        <service class="Products\Tracking\Api\TrackingInterface" method="delete"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+</routes>
+
