@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+  <preference for="Products\Tracking\Api\TrackingInterface" type="Products\Tracking\Model\TrackingRepository" />
+  <preference for="Products\Tracking\Api\Data\ProductDataInterface" type="Products\Tracking\Model\TrackingProduct" />
+
+</config>
